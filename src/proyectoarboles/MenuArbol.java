@@ -12,6 +12,7 @@ public class MenuArbol {
         Arbol arbol = new Arbol();
         int opcion;
         do {
+            System.out.println("\n");
             System.out.println("----- MENÚ -----");
             System.out.println("1. Ingresar árbol y ver sus recorridos");
             System.out.println("2. Eliminar nodo");
@@ -32,24 +33,24 @@ public class MenuArbol {
             switch (opcion) {
                 case 1:
                     System.out.println("Ingresar Árbol:");
-                    arbol.crearArbol(scanner);
+                    arbol.crearArbolAVL(scanner);
                     break;
                 case 2:
                     System.out.print("Ingrese nodo a eliminar: ");
                     String datoEliminar = scanner.nextLine();
                     arbol.eliminarNodo(null, arbol.getRaiz(), datoEliminar);
                     System.out.println("Árbol con nodo eliminado:");
-                    arbol.mostrarArbol(arbol.getRaiz(), "", true);
+                    arbol.mostrarArbol(arbol.getRaiz(), 0);
                     break;
                 case 3:
                     System.out.print("Ingrese el nuevo nodo: ");
                     String nuevo = scanner.nextLine();
                     arbol.insertarNodo(arbol.getRaiz(), nuevo);
                     System.out.println("Árbol con el nuevo nodo:");
-                    arbol.mostrarArbol(arbol.getRaiz(), "", true);
+                    arbol.mostrarArbol(arbol.getRaiz(), 0);
                     break;
                 case 4:
-                    arbol.mostrarArbol(arbol.getRaiz(), "", true);
+                    arbol.mostrarArbol(arbol.getRaiz(), 0);
                     break;
                 case 5:
                     int totalPadres = arbol.mostrarPadres(arbol.getRaiz());

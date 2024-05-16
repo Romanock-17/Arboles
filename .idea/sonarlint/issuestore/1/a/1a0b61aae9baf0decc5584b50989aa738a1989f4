@@ -1,7 +1,8 @@
 
+j	java:S100)"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Œ‡š8ÛÓ—ø1
 o
-java:S3776a"RRefactor this method to reduce its Cognitive Complexity from 25 to the 15 allowed.(·Ãë¯8¨—Šùõ1
+java:S3776N"RRefactor this method to reduce its Cognitive Complexity from 25 to the 15 allowed.(·Ãë¯8ÛÓ—ø1
 W
-java:S1854Ê"9Remove this useless assignment to local variable "total".(´»´8¨—Šùõ1
+java:S1854Â"9Remove this useless assignment to local variable "total".(´»´8êÓ—ø1
 M
-java:S1481Á"*Remove this unused "total" local variable.(óË üÿÿÿÿ8¨—Šùõ1
+java:S1481¹"*Remove this unused "total" local variable.(óË üÿÿÿÿ8êÓ—ø1

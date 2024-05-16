@@ -38,29 +38,10 @@ public class Arbol {
         }
     }
 
-    public static boolean raiz(Nodo nodo) {
+    public static boolean Hoja(Nodo nodo) {
         return nodo.getHijoIzquierdo() == null && nodo.getHijoDerecho() == null;
     }
 
-    public void crearArbol(Scanner scanner) {
-        System.out.println("Ingrese los datos de los nodos separados por espacios:");
-        String[] datos = scanner.nextLine().split(" ");
-
-        raiz = new Nodo(datos[0]);
-        for (int i = 1; i < datos.length; i++) {
-            insertarNodoBinario(raiz, datos[i].charAt(0));
-        }
-
-        int numNodos = contarNodos(raiz);
-        System.out.println("El número de nodos en el árbol es: " + numNodos);
-
-        System.out.println("Inorden");
-        inorden(raiz);
-        System.out.println("\nPreorden");
-        preorden(raiz);
-        System.out.println("\nPostorden");
-        postorden(raiz);
-    }
 
     public void preorden(Nodo nodo) {
         if (nodo != null) {
@@ -155,13 +136,24 @@ public class Arbol {
         }
     }
 
-    public void mostrarArbol(Nodo raiz, String prefijo, boolean esIzquierdo) {
-        if (raiz != null) {
-            System.out.println(prefijo + (esIzquierdo ? "|-- " : "└-- ") + raiz.getDato());
-            mostrarArbol(raiz.getHijoIzquierdo(), prefijo + (esIzquierdo ? "|   " : "    "), true);
-            mostrarArbol(raiz.getHijoDerecho(), prefijo + (esIzquierdo ? "|   " : "    "), false);
+    public void mostrarArbol(Nodo nodo, int espacio) {
+        if (nodo == null) {
+            return;
         }
+        espacio += 10;
+
+        mostrarArbol(nodo.getHijoDerecho(), espacio);
+
+        System.out.print("\n");
+        for (int i = 10; i < espacio; i++) {
+            System.out.print(" ");
+        }
+        System.out.print(nodo.getDato() + "\n");
+
+        // Procesa el nodo izquierdo
+        mostrarArbol(nodo.getHijoIzquierdo(), espacio);
     }
+
 
     public int mostrarHojas(Nodo nodo) {
         int cont = 0;
@@ -179,7 +171,7 @@ public class Arbol {
     public int mostrarPadres(Nodo nodo) {
         int cont = 0;
         if (nodo != null) {
-            if (!raiz(nodo)) {
+            if (!Hoja(nodo)) {
                 System.out.println("Nodo padre: " + nodo.getDato());
                 cont++;
             }
@@ -372,11 +364,72 @@ public class Arbol {
         return false;
     }
 
-    public void rotacionDerecha(Nodo nodo) {
+    public Nodo rotacioSimpleDerecha(Nodo nodo) {
         Nodo aux = nodo.getHijoIzquierdo();
         nodo.setHijoIzquierdo(aux.getHijoDerecho());
         aux.setHijoDerecho(nodo);
+        return aux;
     }
 
+    public Nodo rotacionSimpleIzquierda(Nodo nodo) {
+        Nodo aux = nodo.getHijoDerecho();
+        nodo.setHijoDerecho(aux.getHijoIzquierdo());
+        aux.setHijoIzquierdo(nodo);
+        return aux;
+
+    }
+
+    public void crearArbolAVL(Scanner arbol){
+        System.out.println("Ingrese los datos de los nodos separados por espacios:");
+        String[] datos = arbol.nextLine().split(" ");
+
+        raiz = new Nodo(datos[0]);
+        for (int i = 1; i < datos.length; i++) {
+            raiz = insertarAVL(raiz, datos[i].charAt(0));
+
+            System.out.println("\n Recorridos del árbol AVL");
+            System.out.println("\nInorden");
+            inorden(raiz);
+            System.out.println("\nPreorden");
+            preorden(raiz);
+            System.out.println("\nPostorden");
+            postorden(raiz);
+        }
+    }
+
+    private Nodo insertarAVL(Nodo nodo, char dato){
+        if(nodo == null){
+            return new Nodo(String.valueOf(dato));
+        }
+        if(dato < nodo.getDato().charAt(0)){
+            nodo.setHijoIzquierdo(insertarAVL(nodo.getHijoIzquierdo(), dato));
+        }else{
+            nodo.setHijoDerecho(insertarAVL(nodo.getHijoDerecho(), dato));
+        }
+        int balance = balance(nodo);
+        if(balance > 1 && dato < nodo.getHijoIzquierdo().getDato().charAt(0)){
+            return rotacioSimpleDerecha(nodo);
+        }
+        if(balance < -1 && dato > nodo.getHijoDerecho().getDato().charAt(0)){
+            return rotacionSimpleIzquierda(nodo);
+        }
+        if(balance > 1 && dato > nodo.getHijoIzquierdo().getDato().charAt(0)){
+            nodo.setHijoIzquierdo(rotacionSimpleIzquierda(nodo.getHijoIzquierdo()));
+            return rotacioSimpleDerecha(nodo);
+        }
+        if(balance < -1 && dato < nodo.getHijoDerecho().getDato().charAt(0)){
+            nodo.setHijoDerecho(rotacioSimpleDerecha(nodo.getHijoDerecho()));
+            return rotacionSimpleIzquierda(nodo);
+        }
+        return nodo;
+    }
+
+
+    private int balance(Nodo nodo){
+        if(nodo == null){
+            return 0;
+        }
+        return altura(nodo.getHijoIzquierdo()) - altura(nodo.getHijoDerecho());
+    }
 
 }
