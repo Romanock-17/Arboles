@@ -163,8 +163,6 @@ public class Arbol {
         }
     }
 
-
-
     public int mostrarHojas(Nodo nodo) {
         int cont = 0;
         if (nodo != null) {
@@ -286,8 +284,9 @@ public class Arbol {
                 }
                 if (padre.getHijoDerecho() != null && !padre.getHijoDerecho().getDato().equals(nodo.getDato())) {
                     System.out.println(padre.getHijoDerecho().getDato());
+                } else {
+                    System.out.println("El nodo: " + nodo.getDato() + " NO tiene Hermanos");
                 }
-                System.out.println("El nodo: " + nodo.getDato() + " NO tiene Hermanos");
             }
         }
     }
@@ -371,6 +370,12 @@ public class Arbol {
             return true;
         }
         return false;
+    }
+
+    public void rotacionDerecha(Nodo nodo) {
+        Nodo aux = nodo.getHijoIzquierdo();
+        nodo.setHijoIzquierdo(aux.getHijoDerecho());
+        aux.setHijoDerecho(nodo);
     }
 
 
